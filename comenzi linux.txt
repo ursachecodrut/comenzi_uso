@@ -1,0 +1,47 @@
+ls -Rl          				-> afisare detaliata si recursiva 
+chown {utilizator} {fisier} 			-> permisiune fisier utilizatori
+chgpr {utilizator} {fisier} 			-> permisiune fisier grup
+sudo adduser {user}				-> adaugare user 
+sudo deluser {user}				-> delete user
+id {user}					-> verificare id user 
+su {user}					-> schimbare user
+passwd {user} 					-> schimbare parola user
+sudo apt install {pachet}			-> instalare pachet
+sudo usermod {user} -s {cale shell} 		-> schimbare shell default pentru un utilizator
+chmod +x {file}					-> adaugare permisiune fisier catre utilizator curent
+usermod -a -G {grup1,grup2,etc}			-> adaugare user curent in mai multe grupuri
+sudo usermod -d {cale_fisier}			-> schimbare director home pentru utilizatorul curent
+sudo tar -cvjSf {nume}.tar.bz2 {cale_folder} 	-> arhivare foler in arhiva de tipul .tar.bz2
+ip address show 				-> afisarea adreselor ip 
+ping -c 4 8.8.8.8				-> verificare internet 
+dhclient eth1					-> a obține o adresă IP în mod dinamic pe o interfață
+ip address flush eth1				-> a șterge o adresă IP de pe o interfața
+scp {cale_fisier} student@10.10.10.3:~/		-> trimiterea fisierelor la distanta prin ssh
+scp root@10.10.10.3:/etc/resolv.conf . 		-> descarcarea fisierelor prin ssh in fisierul curent 
+scp -r ./Downloads/ root@10.10.10.3:~/ 		-> Comanda anterioară a copiat directorul Downloads și conținutul său din directorul curent în directorul home al utilizatorului root de la adresa 10.10.10.3
+ssh-keygen 					-> pentru generarea unei perechi de key 
+ssh-copy-id root@10.10.10.3			-> Pentru copierea cheii publice pe o stație
+dd if=/dev/urandom of={nume_fisier} count={numar_dimensiune bs={1kilo, 1M} -> if- input file of-output file/ generare fisier ce contine octeti random cu o anumita dimensiune pentru fisier
+cat /etc/passwd | cut -d : -f1 | sort 		-> afisare utilizatori in ordine lexicografica
+
+systemctl enable ssh				-> enble ssh 
+sudo systemctl start ssh 			-> start ssh
+
+
+ip address show (carol) -> netmask /24
+ip address show (ferdinant) -> netmask /29
+ip address add 10.10.10.1/24 dev eth0 (lab7)
+
+
+--GIT-- 
+git status 				
+git add {fisier}
+git commit -m "message"
+git log 
+git push origin master
+git branch 
+git branch {nume_branch} 		-> adaugare branch
+git checkout {nume_branch}		-> schimbare branch
+git merge {nume_branch}			-> merge intre 2 branchuri
+
+
