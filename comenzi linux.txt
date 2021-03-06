@@ -1,43 +1,161 @@
-ls -Rl          				-> afisare detaliata si recursiva 
+userls -Rl          				-> afisare detaliata si recursiva
+ln -s {cale} {nume_dat_de_mine}			-> asociez unei cai un nume, creeez link/legatura
+alias {nume_dat_de_mine}="{comanda}"		-> asociez unei comenzi un nume, creez alias
+history						-> afiseaza istoric curent
+echo $?						-> afiseaza 0, daca ult comanda a avut succes
+wc -l						-> afiseaza nr de linii
+tldr {expresie/comanda}				-> man dar mai pe scurt
+last -{numar}					-> afiseaza ultimele {numar} logari
+
+
+--PERMISSIONS--
 chown {utilizator} {fisier} 			-> permisiune fisier utilizatori
 chgpr {utilizator} {fisier} 			-> permisiune fisier grup
+chmod +/-[rwx] {file}				-> adaugare/stergere o permisiune fisier catre utilizator curent
+chmod {nr1nr2nr3} {file}			-> adaugare permisiuni; nr1, nr2, nr3 = numere care in binar 
+						   reprezinta permisiuni in urm ord: user, group, others
+
+owner,group,others
+--- --- --- 
+r = 4
+w = 2
+x = 1 
+
+
+
+--USER--
+finger {utilizator}				-> aflare detalii despre acel utilizator
+sudo useradd -m -d {home_directory} {user}	-> creez utilizator nou cu tot si setez directorul home
 sudo adduser {user}				-> adaugare user 
 sudo deluser {user}				-> delete user
+sudo addgroup {group}				-> adaugare grup
 id {user}					-> verificare id user 
 su {user}					-> schimbare user
 passwd {user} 					-> schimbare parola user
-sudo apt install {pachet}			-> instalare pachet
 sudo usermod {user} -s {cale shell} 		-> schimbare shell default pentru un utilizator
-chmod +x {file}					-> adaugare permisiune fisier catre utilizator curent
-usermod -a -G {grup1,grup2,etc}			-> adaugare user curent in mai multe grupuri
-sudo usermod -d {cale_fisier}			-> schimbare director home pentru utilizatorul curent
+sudo usermod {user} -G {grup}			-> adaugare user intr-un grup
+sudo usermod -a -G {grup1,grup2,etc}			-> adaugare user curent in mai multe grupuri
+sudo usermod -d {cale_fisier} {user}		-> schimbare director  pentru user
+
+
+--FILES--
 sudo tar -cvjSf {nume}.tar.bz2 {cale_folder} 	-> arhivare foler in arhiva de tipul .tar.bz2
-ip address show 				-> afisarea adreselor ip 
+zip -r archivename.zip directory_name		-> arhivare director in zip
+zip myfile.zip filename.txt			-> arhivare folder in zip
+file {nume_fisier}				-> afisare tip de fisier
+tar --append --file={arhiva}.tar {file}		-> append file la o arhiva
+tar -tf {archive}.tar				-> pentru a vedea continutul arhivei
+tar -xf {cale_arhiva}.tar			-> pentru dezarhivare
+file {nume_fisier}				-> afisare tip de fisier
+
+
+--GLOBBING--
+locate {file}					-> cauta un fisier
+find {starting-point} -name {expression}	-> cauta un fisier (varianta avansata a lui locate)
+grep -n {pattern} {cale}			-> afiseaza nr liniei care contine patternul cautat
+grep -v {pattern} {cale}			-> afiseaza toate liniile mai putin cele care contin pattern
+cut -d'{delimitator(:,..)}' -f{nr_col1},{nr_col2}-> extrage informatii pe linii si coloane
+tr "ceva" "altceva"				-> inlocuieste "ceva" cu "altceva"
+sed 's/ceva/altceva/g' {file}			-> inlocuieste "ceva" cu "altceva", pe linie (if fara g, atunci tot)
+						   foloseste flagul "-i" pentru a inlocui "inplace" 
+sed -n {line_m},{line_n}p {cale_fisier}		-> afiseaza liniile din intervalul [m, n]
+sort -t	'{separator}' -k {nr_col_infdecaresortam(ex. 3,3)} {file}-> sorteaza (daca vrem sort invers, punem -r)		
+
+
+--INSTALL--
+sudo apt update					-> face update
+sudo apt install {pachet}			-> instalare pachet
+sudo apt-get install {numele comenzii}		-> instalare comanda
+
+
+--IP--
 ping -c 4 8.8.8.8				-> verificare internet 
 dhclient eth1					-> a obține o adresă IP în mod dinamic pe o interfață
 ip address flush eth1				-> a șterge o adresă IP de pe o interfața
+ip address show 				-> afisarea adreselor ip 
+ip addr add 172.31.29.90/20 dev eth0		-> pentru a atribui o adresa IPv4 unei interfete
+ip link set dev eth0 up 			-> pentru a trece interfata eth0 pe UP
+ip addr del 172.31.29.90/20 dev eth0		-> pentru a sterge o adresa IPv4
+wget {pagina_web}				-> pentru a descarca o pagina web
+
+
+--SSH--
 scp {cale_fisier} student@10.10.10.3:~/		-> trimiterea fisierelor la distanta prin ssh
 scp root@10.10.10.3:/etc/resolv.conf . 		-> descarcarea fisierelor prin ssh in fisierul curent 
-scp -r ./Downloads/ root@10.10.10.3:~/ 		-> Comanda anterioară a copiat directorul Downloads și conținutul său din directorul curent în directorul home al utilizatorului root de la adresa 10.10.10.3
+scp -r ./Downloads/ root@10.10.10.3:~/ 		-> Comanda anterioară a copiat directorul Downloads și conținutul 
+						   său din directorul curent în directorul home al utilizatorului 
+					           root de la adresa 10.10.10.3
 ssh-keygen 					-> pentru generarea unei perechi de key 
 ssh-copy-id root@10.10.10.3			-> Pentru copierea cheii publice pe o stație
-dd if=/dev/urandom of={nume_fisier} count={numar_dimensiune bs={1kilo, 1M} -> if- input file of-output file/ generare fisier ce contine octeti random cu o anumita dimensiune pentru fisier
-cat /etc/passwd | cut -d : -f1 | sort 		-> afisare utilizatori in ordine lexicografica
+ssh -X <username>@fep.grid.pub.ro		-> pentru a ne conecta la o statie
+systemctl status {nume_serviciu}		-> afiseaza stare serviciului (ex. ssh, ...)
+systemctl start {nume_serviciu}			-> face activ serviciul
+systemctl stop {nume_serviciu}			-> face inactiv serviciul
 
-systemctl enable ssh				-> enble ssh 
-sudo systemctl start ssh 			-> start ssh
+
+--ENCODING/HASHING--
+echo -n "{text}" | base64			-> encodeaza in base 64
+echo -n "{text_encodat}" | base64 -d		-> decodeaza din base 64
+echo -n "{text}" | md5sum			-> genereaza hashul
+fcrackzip -v -l 1-4 -u secret_brute_force.zip	-> sparge o parola de maxim 4 caractere din secret_brute_force.zip
+openssl aes-{nr_biti_cheie}-{mod_de_criptare}
+-in {input_file} -out {output_file} 		-> encriptare in AES cu 192 de biti si modul CBC
 
 
-ip address show (carol) -> netmask /24
-ip address show (ferdinant) -> netmask /29
-ip address add 10.10.10.1/24 dev eth0 (lab7)
+--PID--
+ps						-> afisare procese din terminalul curent
+pidof {nume_program/proces}			-> afiseaza pidul programului/procesului
+kill -l 					-> lista comenzilor de "kill"
+kill -9	{PID}					-> BOMBA NUCLEARA PE PROCES
+
+
+--SHELL SCRIPTING-- 
+sed 's/{ceva}/{altceva}/' text.txt		-> prima aparitie de pe fiecare linie a lui "ceva" este inlocuita 
+                                                   cu "altceva" din fisierul text
+sed 's/{ceva}/{altceva}/g' text.txt		-> toate aparitiile lui "ceva" sunt inlocuite cu "altceva" din 
+                                                   textul dat
+sed '/{ceva}/d' text.txt			-> sterge linia care contine "ceva"
+cut -d " " -f 1 text.txt			-> afiseaza prima coloana din "text.txt" dupa delimitatorul " " 
+seq 						-> genereaza o secvență de numere. Flagul -s este folosit pentru a
+                                                   stabili caracterul care delimitează numerele	
+wc text.txt					-> echo {numarul de linii}, {numarul de cuvinte}, {numarul de caractere}
+$a -eq $b 					-> a egal cu b
+$a -gt $b					-> a mai mare ca b
+sort 						-> soteaza un fisier (-t specifica separatorul; -k specifica 
+                                                   indexul/cheia coloanei, -n sortare numerica; -r sortare inversa)
+uniq 						-> selecteaza elementele unice
+$* 						-> este un string ($1, $2 … $n) format din toate argumentele 
+                                                   primite de script
+$@                                              -> este o listă formată din argumentele scriptului
+$1, $2 … $n 					-> reprezintă fiecare parametru din script
+$0 						-> este numele scriptului
+$# 						-> este numărul de argumente primite din linia de comandă
+IFS="{separator}" 				-> (Internal Field Separator) definește caracterul sau caracterele 
+                                                   care vor fi folosite pentru împărțirea unei linii în câmpuri (splitting).
+ps aux | awk '{ print $1 }' | sed '1 d' | 
+sort | uniq | wc 				-> numarul de utilizatorii de pe sistemul local care au procese pornite.
+
+	6
+
+--RegEX--
+^		-> început de linie
+$		-> sfârșit de linie
+.		-> orice caracter
+*		-> expresia anterioară de oricâte ori, posibil niciodată
++		-> expresia anterioară de oricâte ori, cel puțin o dată
+[ajt] 		-> orice caracter din setul de caractere a, j, t
+[^ajt]		-> orice caracter mai puțin caracterele a, j, t
+|		-> expresia anterioară sau expresia de după (una dintre cele două expresii)
+? 		-> expresia anterioară o dată sau niciodată
+
 
 
 --GIT-- 
-git status 				
-git add {fisier}
+git init				-> creare repository local
+git status				-> verificare stare repository 				
+git add {fisier}			-> aduagare fisier in staging area
 git commit -m "message"
-git log 
+git log					-> verificare istoric comituri
 git push origin master
 git branch 
 git branch {nume_branch} 		-> adaugare branch
